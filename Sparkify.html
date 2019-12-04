@@ -13237,15 +13237,15 @@ div#notebook {
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;spark.master&#39;, &#39;local&#39;),
- (&#39;spark.driver.port&#39;, &#39;44073&#39;),
- (&#39;spark.driver.host&#39;, &#39;f2b5a7ed5ff7&#39;),
+ (&#39;spark.driver.port&#39;, &#39;41965&#39;),
  (&#39;spark.rdd.compress&#39;, &#39;True&#39;),
  (&#39;spark.serializer.objectStreamReset&#39;, &#39;100&#39;),
- (&#39;spark.app.id&#39;, &#39;local-1575449815731&#39;),
  (&#39;spark.executor.id&#39;, &#39;driver&#39;),
  (&#39;spark.app.name&#39;, &#39;EDA&#39;),
  (&#39;spark.submit.deployMode&#39;, &#39;client&#39;),
- (&#39;spark.ui.showConsoleProgress&#39;, &#39;true&#39;)]</pre>
+ (&#39;spark.app.id&#39;, &#39;local-1575462047802&#39;),
+ (&#39;spark.ui.showConsoleProgress&#39;, &#39;true&#39;),
+ (&#39;spark.driver.host&#39;, &#39;2986df206796&#39;)]</pre>
 </div>
 
 </div>
@@ -13284,7 +13284,7 @@ div#notebook {
         <div>
             <p><b>SparkContext</b></p>
 
-            <p><a href="http://f2b5a7ed5ff7:4040">Spark UI</a></p>
+            <p><a href="http://2986df206796:4040">Spark UI</a></p>
 
             <dl>
               <dt>Version</dt>
@@ -15810,60 +15810,6 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">assembler</span> <span class="o">=</span> <span class="n">VectorAssembler</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">,</span><span class="s2">&quot;level&quot;</span><span class="p">,</span><span class="s2">&quot;thumsup_cnt&quot;</span><span class="p">,</span><span class="s2">&quot;session_cnt&quot;</span><span class="p">,</span><span class="s2">&quot;avg_songs&quot;</span><span class="p">],</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;NumFeatures&quot;</span><span class="p">)</span>
-<span class="n">scaler</span> <span class="o">=</span> <span class="n">Normalizer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;NumFeatures&quot;</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;ScaledAllFeatures&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">featuresCol</span><span class="o">=</span><span class="s2">&quot;ScaledAllFeatures&quot;</span><span class="p">,</span> <span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">regParam</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-<span class="n">pipeline_lr</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">assembler</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="n">model_lr</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">features_final</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_lr_fitted</span> <span class="o">=</span> <span class="n">pipeline_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -15894,7 +15840,113 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">assembler</span> <span class="o">=</span> <span class="n">VectorAssembler</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">,</span><span class="s2">&quot;level&quot;</span><span class="p">,</span><span class="s2">&quot;thumsup_cnt&quot;</span><span class="p">,</span><span class="s2">&quot;session_cnt&quot;</span><span class="p">,</span><span class="s2">&quot;avg_songs&quot;</span><span class="p">],</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">)</span>
+
+<span class="c1"># Apply the vectorization on the dataset</span>
+<span class="n">input_data</span> <span class="o">=</span> <span class="n">assembler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">features_final</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">features_scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">(</span><span class="n">withMean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">withStd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inputCol</span><span class="o">=</span><span class="s1">&#39;features&#39;</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s1">&#39;scaled_features&#39;</span><span class="p">)</span>
+<span class="n">features_scaler_fit</span> <span class="o">=</span> <span class="n">features_scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+<span class="n">scaled_inputs</span> <span class="o">=</span> <span class="n">features_scaler_fit</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Select the output and input features</span>
+<span class="n">ml_data</span> <span class="o">=</span> <span class="n">scaled_inputs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">scaled_inputs</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">scaled_inputs</span><span class="o">.</span><span class="n">scaled_features</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;features&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Defining training and testing samples</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">ml_data</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">],</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="n">ParamGridBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">regParam</span><span class="p">,[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">elasticNetParam</span><span class="p">,[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">aggregationDepth</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crossval_lr</span> <span class="o">=</span> <span class="n">CrossValidator</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">model_lr</span><span class="p">,</span>
+                          <span class="n">estimatorParamMaps</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+                          <span class="n">evaluator</span><span class="o">=</span><span class="n">MulticlassClassificationEvaluator</span><span class="p">(),</span>
+                          <span class="n">numFolds</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">seed</span> <span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_lr_fitted</span> <span class="o">=</span> <span class="n">crossval_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_output</span><span class="p">(</span><span class="n">model_lr_fitted</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
@@ -15910,13 +15962,13 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[61]:</div>
+    <div class="prompt output_prompt">Out[95]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.7262656475019387</pre>
+<pre>0.5841784989858012</pre>
 </div>
 
 </div>
@@ -15928,19 +15980,21 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Based on the above model of logistic regression we can see that we have got a good score of 0.71, however let us try to check the same by using the Decision trees</p>
+<p>Based on the above model of logistic regression we can see that we have got a good score of 0.58, however let us try to check the same by using the Decision trees</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">featuresCol</span><span class="o">=</span><span class="s2">&quot;ScaledAllFeatures&quot;</span><span class="p">,</span> <span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
-<span class="n">pipeline_dt</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">assembler</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="n">model_dt</span><span class="p">])</span>
-<span class="n">model_dt_fitted</span> <span class="o">=</span> <span class="n">pipeline_dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="n">ParamGridBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model_dt</span><span class="o">.</span><span class="n">maxDepth</span><span class="p">,[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model_dt</span><span class="o">.</span><span class="n">impurity</span><span class="p">,[</span><span class="s1">&#39;entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;gini&#39;</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -15950,7 +16004,36 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crossval_dt</span> <span class="o">=</span> <span class="n">CrossValidator</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">model_dt</span><span class="p">,</span>
+                          <span class="n">estimatorParamMaps</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+                          <span class="n">evaluator</span><span class="o">=</span><span class="n">MulticlassClassificationEvaluator</span><span class="p">(),</span>
+                          <span class="n">numFolds</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">seed</span> <span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_dt_fitted</span> <span class="o">=</span> <span class="n">crossval_dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[99]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_output</span><span class="p">(</span><span class="n">model_dt_fitted</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
@@ -15966,13 +16049,13 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[63]:</div>
+    <div class="prompt output_prompt">Out[99]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.6867435969603151</pre>
+<pre>0.5696594427244583</pre>
 </div>
 
 </div>
@@ -15980,23 +16063,19 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Looks like Decision tree model is less accurate than the Logistic regression model. Let us check the Random forest trees</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">featuresCol</span><span class="o">=</span><span class="s2">&quot;ScaledAllFeatures&quot;</span><span class="p">,</span> <span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
-<span class="n">pipeline_rf</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">assembler</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="n">model_rf</span><span class="p">])</span>
-<span class="n">model_rf_fitted</span> <span class="o">=</span> <span class="n">pipeline_rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Random Forest Model</span>
+<span class="n">model_rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="n">ParamGridBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model_rf</span><span class="o">.</span><span class="n">maxDepth</span><span class="p">,[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model_rf</span><span class="o">.</span><span class="n">impurity</span><span class="p">,[</span><span class="s1">&#39;entropy&#39;</span><span class="p">,</span> <span class="s1">&#39;gini&#39;</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model_rf</span><span class="o">.</span><span class="n">numTrees</span> <span class="p">,[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -16006,7 +16085,58 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[101]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crossval_rf</span> <span class="o">=</span> <span class="n">CrossValidator</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">model_rf</span><span class="p">,</span>
+                          <span class="n">estimatorParamMaps</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+                          <span class="n">evaluator</span><span class="o">=</span><span class="n">MulticlassClassificationEvaluator</span><span class="p">(),</span>
+                          <span class="n">numFolds</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">seed</span> <span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[102]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_rf_fitted</span> <span class="o">=</span> <span class="n">crossval_rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Exception ignored in: &lt;object repr() failed&gt;
+Traceback (most recent call last):
+  File &#34;/opt/spark-2.4.3-bin-hadoop2.7/python/pyspark/ml/wrapper.py&#34;, line 40, in __del__
+    if SparkContext._active_spark_context and self._java_obj is not None:
+AttributeError: &#39;DecisionTreeClassifier&#39; object has no attribute &#39;_java_obj&#39;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_output</span><span class="p">(</span><span class="n">model_rf_fitted</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
@@ -16022,13 +16152,13 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[65]:</div>
+    <div class="prompt output_prompt">Out[103]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.6480558325024925</pre>
+<pre>0.5390374331550801</pre>
 </div>
 
 </div>
@@ -16036,24 +16166,19 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To our surprise, Random forest score is slightly lesser than that of Decision tree</p>
-<p>Let us check the f1 score for Gradient boosting technique as well</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_gbt</span> <span class="o">=</span> <span class="n">GBTClassifier</span><span class="p">(</span><span class="n">featuresCol</span><span class="o">=</span><span class="s2">&quot;ScaledAllFeatures&quot;</span><span class="p">,</span> <span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
-<span class="n">pipeline_gbt</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">assembler</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="n">model_gbt</span><span class="p">])</span>
-<span class="n">model_gbt_fitted</span> <span class="o">=</span> <span class="n">pipeline_gbt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># GBT Model</span>
+<span class="n">model_gbt</span> <span class="o">=</span> <span class="n">GBTClassifier</span><span class="p">()</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="n">ParamGridBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model_gbt</span><span class="o">.</span><span class="n">maxDepth</span><span class="p">,[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model_gbt</span><span class="o">.</span><span class="n">maxBins</span> <span class="p">,[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">model_gbt</span><span class="o">.</span><span class="n">maxIter</span> <span class="p">,[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -16063,7 +16188,36 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crossval_gbt</span> <span class="o">=</span> <span class="n">CrossValidator</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">model_gbt</span><span class="p">,</span>
+                          <span class="n">estimatorParamMaps</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+                          <span class="n">evaluator</span><span class="o">=</span><span class="n">MulticlassClassificationEvaluator</span><span class="p">(),</span>
+                          <span class="n">numFolds</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">seed</span> <span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_gbt_fitted</span> <span class="o">=</span> <span class="n">crossval_gbt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[111]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_output</span><span class="p">(</span><span class="n">model_gbt_fitted</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
@@ -16079,13 +16233,13 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[67]:</div>
+    <div class="prompt output_prompt">Out[111]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.6867435969603151</pre>
+<pre>0.7584325666208162</pre>
 </div>
 
 </div>
@@ -16109,93 +16263,29 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 <tr>
 <td>1</td>
 <td>Logistic Regression</td>
-<td>0.726</td>
+<td>0.584</td>
 </tr>
 <tr>
 <td>2</td>
 <td>Decision Trees</td>
-<td>0.686</td>
+<td>0.569</td>
 </tr>
 <tr>
 <td>3</td>
 <td>Random Forest</td>
-<td>0.646</td>
+<td>0.539</td>
 </tr>
 <tr>
 <td>4</td>
 <td>GBT (Gradient Boost)</td>
-<td>0.686</td>
+<td>0.758</td>
 </tr>
 </tbody>
 </table>
-<p>Based on the above table, we can observe that Logistic Regressions model is the one which has better F1 score compared to other models.
-So, we can use grid search technique to further fine tune the Logistic regression model.</p>
+<p>Based on the above table, we can observe that Gradient Boost algorithm has provided much higher and good f1 score across all the other models with parameters and considering the cross validation</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Refinement">Refinement<a class="anchor-link" href="#Refinement">&#182;</a></h3><p>We can still explore the other options by using cross validation to minimize the chance of overfitting, and grid search to tune our logistic regression model to achieve higher f1 score compared to the earlier with out grid search technique</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Paramter Grid</span>
-<span class="n">paramGrid</span> <span class="o">=</span> <span class="n">ParamGridBuilder</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
-
-<span class="c1"># Apply to the Model using cross validation</span>
-<span class="n">crossval_lr</span> <span class="o">=</span> <span class="n">CrossValidator</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">pipeline_lr</span><span class="p">,</span>
-                          <span class="n">estimatorParamMaps</span><span class="o">=</span><span class="n">paramGrid</span><span class="p">,</span>
-                          <span class="n">evaluator</span><span class="o">=</span><span class="n">MulticlassClassificationEvaluator</span><span class="p">(),</span>
-                          <span class="n">numFolds</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="c1"># Fit the model</span>
-<span class="n">crossmodel_lr</span> <span class="o">=</span> <span class="n">crossval_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Check the f1 score for logistic regression model</span>
-<span class="n">model_output</span><span class="p">(</span><span class="n">crossmodel_lr</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>0.743021590909131
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -16206,9 +16296,9 @@ The process we followed is</p>
 <p>2) Went through the data using the basic EDA to see the pattern of data</p>
 <p>3) Selected the features, which i thought are having impact on the customer churn like Gender, Paid Level, Help Thumbsdown</p>
 <p>4) Appied four different models i.e., Logistic regression, Decision trees, Random Forest and GBT to see which is affective</p>
-<p>5) By this, we found out Logistic and Random forest have better f1 score</p>
-<p>6) Enhanced the Logistic regression model with cross validation technique and got to see that the F1 score has been improved compared to normal logistic regression</p>
-<p>7) We can see some improvement in the model post cross validation and grid search</p>
+<p>5) This has been routed through parameter passing in the cross validation and grid search technique to get the proper model for identifying the customer churn</p>
+<p>5) By this, we found out Gradient Boost has better f1 score</p>
+<p>Hence as per my work, i can recommend GBT as modelling technique for customer churn idenitification</p>
 
 </div>
 </div>
