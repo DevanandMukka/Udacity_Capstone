@@ -13135,9 +13135,12 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Sparkify-Project">Sparkify Project<a class="anchor-link" href="#Sparkify-Project">&#182;</a></h1><p>As a fictional music streaming service, Sparkify is looking to predict which of it's users are most likely to stop using the service in the future. When users stop using the service it is a loss of potential revenue; users leaving a service is commonly called churn.</p>
+<h1 id="Sparkify-Project">Sparkify Project<a class="anchor-link" href="#Sparkify-Project">&#182;</a></h1><h4 id="Project-Description">Project Description<a class="anchor-link" href="#Project-Description">&#182;</a></h4><p>As a fictional music streaming service, Sparkify is looking to predict which of it's users are most likely to stop using the service in the future. When users stop using the service it is a loss of potential revenue; users leaving a service is commonly called churn.</p>
+<h4 id="About-Data">About Data<a class="anchor-link" href="#About-Data">&#182;</a></h4><p>Data provided consists of User information along with session information such as User basic details (Gender) along with paid level and session details such as session id, song and artist name and clicks.</p>
+<h4 id="Approach">Approach<a class="anchor-link" href="#Approach">&#182;</a></h4><p>To start with, i will be focussing on the exploratory data analysis with which i can able to identify the patterns of data and can handle the missing values or clean the data frame.</p>
+<p>Then based on the analysis, i can able to list out the important features for the modelling process. Features need to be converted to numeric in case of categorical values.The features table should have userIds on one axis and a variety of features that can be used to split them on the other. Since there are far fewer churned users than normal users, the f1-score will be a good metric for evaluating the models.</p>
 <p>I will be using the sample data from Sparkify (128MB) and not the full data (12GB).</p>
-<p>i will be working on this project using the PySpark so that i can get familiar with it as a tool and to improve the skills</p>
+<h4 id="Final-comment">Final comment<a class="anchor-link" href="#Final-comment">&#182;</a></h4><p>i will be working on this project using the PySpark so that i can get familiar with it as a tool and to improve the skills</p>
 
 </div>
 </div>
@@ -13178,6 +13181,7 @@ div#notebook {
 <span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="k">import</span> <span class="n">BinaryClassificationEvaluator</span>
 <span class="kn">from</span> <span class="nn">pyspark.mllib.evaluation</span> <span class="k">import</span> <span class="n">MulticlassMetrics</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="k">import</span> <span class="n">VectorAssembler</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.tuning</span> <span class="k">import</span> <span class="n">CrossValidator</span><span class="p">,</span> <span class="n">ParamGridBuilder</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
 
@@ -13233,14 +13237,14 @@ div#notebook {
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;spark.master&#39;, &#39;local&#39;),
- (&#39;spark.app.id&#39;, &#39;local-1575410205531&#39;),
+ (&#39;spark.driver.port&#39;, &#39;44073&#39;),
+ (&#39;spark.driver.host&#39;, &#39;f2b5a7ed5ff7&#39;),
  (&#39;spark.rdd.compress&#39;, &#39;True&#39;),
- (&#39;spark.driver.port&#39;, &#39;45583&#39;),
  (&#39;spark.serializer.objectStreamReset&#39;, &#39;100&#39;),
+ (&#39;spark.app.id&#39;, &#39;local-1575449815731&#39;),
  (&#39;spark.executor.id&#39;, &#39;driver&#39;),
  (&#39;spark.app.name&#39;, &#39;EDA&#39;),
  (&#39;spark.submit.deployMode&#39;, &#39;client&#39;),
- (&#39;spark.driver.host&#39;, &#39;c3a4183700fa&#39;),
  (&#39;spark.ui.showConsoleProgress&#39;, &#39;true&#39;)]</pre>
 </div>
 
@@ -13280,7 +13284,7 @@ div#notebook {
         <div>
             <p><b>SparkContext</b></p>
 
-            <p><a href="http://c3a4183700fa:4040">Spark UI</a></p>
+            <p><a href="http://f2b5a7ed5ff7:4040">Spark UI</a></p>
 
             <dl>
               <dt>Version</dt>
@@ -15799,6 +15803,7 @@ only showing top 5 rows
 <h1 id="Modeling">Modeling<a class="anchor-link" href="#Modeling">&#182;</a></h1><p>Finally, in this section we will split the data set with features in to train and test for the validation of the label (whether user will churn or not)  based on the lessons learnt in course.
 Since the churned users are a fairly small subset, I suggest using F1 score as the metric to optimize.</p>
 <p>As a starting point, we can check the model of logistic regression to see how is the score</p>
+<p>We select F-1 score as our evaluation metrics. The reason we use F-1 score here is because it gives us a simple measure of the precision (whether we send offer to the right person) and recall (whether we miss one that we should’ve sent the offer) of the model. We want to identify those who are likely to churn and give them some special offers in trying to keep the customer, but at the same time, we do not want to send too many offers (most likely a monetary incentive) to those who are not as likely to churn and therefore wasting money and resources.</p>
 
 </div>
 </div>
@@ -16023,7 +16028,7 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.7119703825586178</pre>
+<pre>0.6480558325024925</pre>
 </div>
 
 </div>
@@ -16035,11 +16040,214 @@ Since the churned users are a fairly small subset, I suggest using F1 score as t
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Random forest score is more than that of Decision tree, even though that is marginal one.
-However, as a final analysis from my side, Logistic regression has shown much confidence in the model score and hence i would suggest the logistic regression for this</p>
+<p>To our surprise, Random forest score is slightly lesser than that of Decision tree</p>
+<p>Let us check the f1 score for Gradient boosting technique as well</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_gbt</span> <span class="o">=</span> <span class="n">GBTClassifier</span><span class="p">(</span><span class="n">featuresCol</span><span class="o">=</span><span class="s2">&quot;ScaledAllFeatures&quot;</span><span class="p">,</span> <span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
+<span class="n">pipeline_gbt</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">assembler</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="n">model_gbt</span><span class="p">])</span>
+<span class="n">model_gbt_fitted</span> <span class="o">=</span> <span class="n">pipeline_gbt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_output</span><span class="p">(</span><span class="n">model_gbt_fitted</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[67]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.6867435969603151</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h4><p>Below are the F1 scores for multiple models that i have tried to test based on the seletced feaute set</p>
+<table>
+<thead><tr>
+<th>SNo</th>
+<th>Model</th>
+<th>F1 Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Logistic Regression</td>
+<td>0.726</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Decision Trees</td>
+<td>0.686</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Random Forest</td>
+<td>0.646</td>
+</tr>
+<tr>
+<td>4</td>
+<td>GBT (Gradient Boost)</td>
+<td>0.686</td>
+</tr>
+</tbody>
+</table>
+<p>Based on the above table, we can observe that Logistic Regressions model is the one which has better F1 score compared to other models.
+So, we can use grid search technique to further fine tune the Logistic regression model.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Refinement">Refinement<a class="anchor-link" href="#Refinement">&#182;</a></h3><p>We can still explore the other options by using cross validation to minimize the chance of overfitting, and grid search to tune our logistic regression model to achieve higher f1 score compared to the earlier with out grid search technique</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Paramter Grid</span>
+<span class="n">paramGrid</span> <span class="o">=</span> <span class="n">ParamGridBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="c1"># Apply to the Model using cross validation</span>
+<span class="n">crossval_lr</span> <span class="o">=</span> <span class="n">CrossValidator</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">pipeline_lr</span><span class="p">,</span>
+                          <span class="n">estimatorParamMaps</span><span class="o">=</span><span class="n">paramGrid</span><span class="p">,</span>
+                          <span class="n">evaluator</span><span class="o">=</span><span class="n">MulticlassClassificationEvaluator</span><span class="p">(),</span>
+                          <span class="n">numFolds</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># Fit the model</span>
+<span class="n">crossmodel_lr</span> <span class="o">=</span> <span class="n">crossval_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Check the f1 score for logistic regression model</span>
+<span class="n">model_output</span><span class="p">(</span><span class="n">crossmodel_lr</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.743021590909131
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have implemented a model to predict the churn of music app customer base. 
+The process we followed is</p>
+<p>1) Removed any null values in the Userid information as that is critical in this analysis</p>
+<p>2) Went through the data using the basic EDA to see the pattern of data</p>
+<p>3) Selected the features, which i thought are having impact on the customer churn like Gender, Paid Level, Help Thumbsdown</p>
+<p>4) Appied four different models i.e., Logistic regression, Decision trees, Random Forest and GBT to see which is affective</p>
+<p>5) By this, we found out Logistic and Random forest have better f1 score</p>
+<p>6) Enhanced the Logistic regression model with cross validation technique and got to see that the F1 score has been improved compared to normal logistic regression</p>
+<p>7) We can see some improvement in the model post cross validation and grid search</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h3><p>With help of this project, i was able to implement a process for creating a model which can identify the customers of a music app about to churn. With help of EDA i was able to get the list of suitable features which i have used for model. Have considered four different models to try this prediction, interestingly Logistic Regression has the good F1 score compared to rest.</p>
+<p>Hence i have improved the model by using the grid search technique and cross validation, it has improved the f1 score slightly which can be used further.</p>
+<p>Since this has been done in UDACITY workspace, i have used the sample data (128 MB) rather than the complete data (12GB), i definitely believe that if we explore more and use the complete data set we can have a very good and accurate model</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
